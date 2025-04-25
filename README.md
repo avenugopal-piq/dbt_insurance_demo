@@ -1,0 +1,36 @@
+# Insurance Analytics DBT Project
+
+This project uses dbt Core to transform P&C insurance data stored in Snowflake.
+
+Prep on Snowflake
+
+``` sql
+-- Connect as ACCOUNTADMIN
+USE ROLE ACCOUNTADMIN;
+
+-- Create INSURANCE-DBADMIN role
+CREATE ROLE IF NOT EXISTS "INSURANCE-DBADMIN";
+
+-- Grant role to ACCOUNTADMIN (so you can use it)
+GRANT ROLE "INSURANCE-DBADMIN" TO ROLE ACCOUNTADMIN;
+
+-- Create INSURANCE database
+CREATE DATABASE IF NOT EXISTS INSURANCE;
+
+-- Create DBT_USER and assign role
+CREATE USER IF NOT EXISTS DBT_USER
+    PASSWORD = 'dbtCoreIsGreat' -- Change this to a secure password
+    DEFAULT_ROLE = "INSURANCE-DBADMIN"
+    DEFAULT_WAREHOUSE = COMPUTE_WH; -- Change to your warehouse name
+
+-- Grant INSURANCE-DBADMIN role to DBT_USER
+GRANT ROLE "INSURANCE-DBADMIN" TO USER DBT_USER;
+
+-- Grant privileges to INSURANCE-DBADMIN role
+GRANT ALL PRIVILEGES ON DATABASE INSURANCE TO ROLE "INSURANCE-DBADMIN";
+GRANT USAGE, OPERATE ON WAREHOUSE COMPUTE_WH TO ROLE "INSURANCE-DBADMIN";
+
+GRANT ROLE "INSURANCE-DBADMIN" TO USER AVENUGOPAL;
+```
+
+Set your default schema as DEMOT

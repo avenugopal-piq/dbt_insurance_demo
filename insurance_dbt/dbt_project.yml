@@ -1,0 +1,33 @@
+name: 'insurance_dbt'
+version: '1.0.0'
+config-version: 2
+
+profile: 'insurance_dbt'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+seeds:
+  insurance_dbt:
+    +schema: RAW
+
+models:
+  insurance_dbt:
+    staging:
+      +schema: RAW
+      +materialized: view
+    intermediate:
+      +schema: INTERMEDIATE
+      +materialized: view
+    marts:
+      +schema: MART
+      +materialized: table
